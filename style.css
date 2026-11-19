@@ -271,3 +271,77 @@ h2 em{color:var(--pink-deep)}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .reveal{opacity:1;transform:none}
 }
+
+/* ============ BRAND CASE PAGES ============ */
+.brands{padding-top:40px}
+.brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.brand-card{position:relative;border-radius:36px;padding:38px;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .5s cubic-bezier(.3,1.3,.5,1),box-shadow .4s;border:1px solid var(--sand)}
+.brand-card:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:var(--shadow)}
+.brand-card.planet{background:radial-gradient(circle at 85% 15%,rgba(238,154,176,.35),transparent 45%),linear-gradient(150deg,#EFE3D3,#E4D3BD)}
+.brand-card.quissah{background:radial-gradient(circle at 15% 85%,rgba(201,174,142,.5),transparent 50%),linear-gradient(150deg,#FBEFF1,#F7D3DC)}
+.brand-card .gem{position:absolute;right:28px;top:22px;font-size:64px;opacity:.9;animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(8deg)}}
+.brand-card .handle{font-size:14px;color:var(--mocha);letter-spacing:.04em}
+.brand-card h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,3.6vw,52px);letter-spacing:-.03em;line-height:1;margin:10px 0 8px}
+.brand-card h3 small{display:block;font-family:var(--sans);font-size:15px;letter-spacing:0;color:var(--ink-soft);margin-top:10px;font-weight:400}
+.brand-stats{display:flex;gap:30px;margin-top:22px;flex-wrap:wrap}
+.brand-stats strong{display:block;font-family:var(--serif);font-size:34px;font-weight:450;line-height:1}
+.brand-stats span{font-size:13px;color:var(--ink-soft)}
+.brand-card .go{align-self:flex-start;margin-top:26px}
+
+.case-hero{max-width:1280px;margin:0 auto;padding:150px clamp(20px,5vw,60px) 40px;display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:end}
+.back{display:inline-flex;gap:8px;font-size:14px;color:var(--ink-soft);margin-bottom:28px;transition:gap .3s,color .3s}
+.back:hover{gap:14px;color:var(--pink-deep)}
+.case-hero h1{font-family:var(--serif);font-weight:350;font-size:clamp(52px,8vw,120px);line-height:.92;letter-spacing:-.04em}
+.case-hero h1 .ar{display:block;font-family:var(--sans);font-size:.28em;letter-spacing:0;color:var(--mocha);margin-top:16px;font-weight:500}
+.case-hero .role{display:inline-block;margin-top:24px;font-family:var(--hand);font-size:26px;color:var(--pink-deep)}
+.case-side{background:var(--cream);border:1px solid var(--sand);border-radius:30px;padding:30px}
+.case-side p{color:var(--ink-soft);margin-bottom:18px}
+.case-side .brand-stats{margin-top:0}
+.ig-link{display:inline-flex;align-items:center;gap:10px;margin-top:22px}
+.ig-ico{width:20px;height:20px}
+
+.did{max-width:1280px;margin:0 auto;padding:40px clamp(20px,5vw,60px)}
+.did ul{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.did li{background:var(--bg2);border-radius:22px;padding:22px;font-size:15px;color:var(--ink-soft);transition:transform .4s cubic-bezier(.3,1.5,.5,1),background .3s}
+.did li:hover{transform:translateY(-6px) rotate(-1deg);background:var(--pink-soft)}
+.did li b{display:block;font-family:var(--serif);font-weight:500;font-size:21px;color:var(--ink);margin-bottom:6px}
+.did li i{font-style:normal;font-size:26px;display:block;margin-bottom:10px}
+
+.reels{max-width:1280px;margin:0 auto;padding:80px clamp(20px,5vw,60px) 40px}
+.reel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:start}
+.reel{position:relative;background:var(--cream);border:1px solid var(--sand);border-radius:32px;padding:14px 14px 18px;transition:transform .5s cubic-bezier(.3,1.3,.5,1),box-shadow .4s}
+.reel:nth-child(3n+2){margin-top:46px}
+.reel:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.reel .frame{border-radius:22px;overflow:hidden;background:var(--bg2);min-height:420px;display:grid;place-items:center}
+.reel .frame .loading{font-family:var(--hand);font-size:22px;color:var(--mocha);animation:twinkle 2s infinite}
+.reel .instagram-media{margin:0!important;min-width:0!important;width:100%!important;max-width:100%!important;border:0!important;border-radius:22px!important;box-shadow:none!important}
+.reel iframe{border-radius:22px!important}
+.reel .cap{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 8px 0}
+.reel .cap h4{font-family:var(--serif);font-weight:450;font-size:19px;line-height:1.15}
+.reel .cap small{display:block;font-size:13px;color:var(--ink-soft);margin-top:3px}
+.views{flex:none;background:var(--pink-soft);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.reel.star::before{content:"✦ most loved";position:absolute;top:-12px;left:22px;z-index:3;background:var(--ink);color:var(--cream);font-size:12.5px;padding:5px 12px;border-radius:999px;letter-spacing:.03em}
+
+.next-brand{max-width:1280px;margin:0 auto;padding:60px clamp(20px,5vw,60px) 100px}
+.next-brand a{display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1.5px dashed var(--latte);border-bottom:1.5px dashed var(--latte);padding:40px 0;transition:padding .4s}
+.next-brand a:hover{padding-left:20px;padding-right:20px}
+.next-brand span{font-size:14px;color:var(--mocha);letter-spacing:.14em;text-transform:uppercase}
+.next-brand strong{font-family:var(--serif);font-style:italic;font-weight:350;font-size:clamp(36px,5vw,72px);letter-spacing:-.03em}
+.next-brand a:hover strong{color:var(--pink-deep)}
+
+@media (max-width:1000px){
+  .brand-grid,.case-hero{grid-template-columns:1fr}
+  .did ul{grid-template-columns:repeat(2,1fr)}
+  .reel-grid{grid-template-columns:repeat(2,1fr)}
+  .reel:nth-child(3n+2){margin-top:0}
+  .reel:nth-child(2n){margin-top:46px}
+}
+@media (max-width:640px){
+  .did ul,.reel-grid{grid-template-columns:1fr}
+  .reel:nth-child(2n){margin-top:0}
+  .next-brand a{flex-direction:column;align-items:flex-start}
+}
+
+.what .at a{border-bottom:1.5px solid var(--pink)}
+.what .at a:hover{color:var(--pink-deep)}
