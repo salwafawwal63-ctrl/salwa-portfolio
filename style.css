@@ -294,7 +294,7 @@ h2 em{color:var(--pink-deep)}
 .back:hover{gap:14px;color:var(--pink-deep)}
 .case-hero h1{font-family:var(--serif);font-weight:350;font-size:clamp(52px,8vw,120px);line-height:.92;letter-spacing:-.04em}
 .case-hero h1 .ar{display:block;font-family:var(--sans);font-size:.28em;letter-spacing:0;color:var(--mocha);margin-top:16px;font-weight:500}
-.case-hero .role{display:inline-block;margin-top:24px;font-family:var(--hand);font-size:26px;color:var(--pink-deep)}
+.case-hero .case-role{display:inline-block;margin-top:24px;font-family:var(--hand);font-size:26px;color:var(--pink-deep)}
 .case-side{background:var(--cream);border:1px solid var(--sand);border-radius:30px;padding:30px}
 .case-side p{color:var(--ink-soft);margin-bottom:18px}
 .case-side .brand-stats{margin-top:0}
