@@ -1,7 +1,8 @@
 // ✿ Salwa Fawal portfolio
 const projects = [
   {
-    id: "kiwi", title: "Kiwi Garden Juices", cat: "branding social", label: "Branding · Social campaigns", year: "GCC",
+    id: "kiwi",
+    theme: { bg: 'radial-gradient(120% 80% at 85% 0%, #c36226 0%, transparent 55%), radial-gradient(90% 70% at 0% 100%, #a43f2e 0%, transparent 60%), linear-gradient(160deg, #3b8086 0%, #1f5559 55%, #180d0d 100%)', ink: '#FFF6EE', soft: 'rgba(255,246,238,.78)', accent: '#F7B27A', glow: 'rgba(195,98,38,.55)', dark: true, hero: 'img/kiwi-stands.jpg', heroOpacity: .4 }, title: "Kiwi Garden Juices", cat: "branding social", label: "Branding · Social campaigns", year: "GCC",
     thumb: "img/kiwi-soon.jpg", wide: true,
     blurb: "Logo + campaign visuals for a juice & ice-cream bar",
     desc: "A bold geometric monogram that hides the word “kiwi”, paired with juicy product visuals: in-store stand displays, Ramadan offer posts and “coming soon” teasers that make you want a cup right now.",
@@ -9,7 +10,8 @@ const projects = [
     images: [["kiwi-logo.jpg"], ["kiwi-stands.jpg"], ["kiwi-offers.jpg", "full"], ["kiwi-soon.jpg", "full"]],
   },
   {
-    id: "bustan", title: "Bustan", cat: "branding", label: "Brand identity", year: "✿",
+    id: "bustan",
+    theme: { bg: 'radial-gradient(100% 70% at 100% 0%, #c9e29a 0%, transparent 60%), linear-gradient(165deg, #9bb677 0%, #e7ebe3 60%, #fefae9 100%)', ink: '#24341A', soft: 'rgba(36,52,26,.75)', accent: '#5E8A2A', glow: 'rgba(139,191,64,.45)', dark: false }, title: "Bustan", cat: "branding", label: "Brand identity", year: "✿",
     thumb: "img/bustan.jpg",
     blurb: "Bilingual identity for a food retail brand",
     desc: "Brand identity for a food retail company with a global online store. Two directions in Arabic and English — one fresh and grounded in nature, one playful with a hill-and-apple mark — built around growth, health and freshness.",
@@ -17,7 +19,8 @@ const projects = [
     images: [["bustan.jpg", "full"]],
   },
   {
-    id: "decor", title: "DECOR Magazine", cat: "print", label: "Editorial · InDesign", year: "print",
+    id: "decor",
+    theme: { bg: 'radial-gradient(90% 70% at 10% 0%, #73abae 0%, transparent 60%), linear-gradient(170deg, #b5cbcb 0%, #c2cac7 45%, #e0dee3 100%)', ink: '#22393A', soft: 'rgba(34,57,58,.75)', accent: '#3F7F82', glow: 'rgba(115,171,174,.55)', dark: false }, title: "DECOR Magazine", cat: "print", label: "Editorial · InDesign", year: "print",
     thumb: "img/decor-cover.jpg",
     blurb: "A calm, sage-toned interiors magazine",
     desc: "A full furniture & interiors magazine designed in InDesign — cover, table of contents and an eco-friendly design feature, then styled into cozy real-life mockups.",
@@ -25,7 +28,8 @@ const projects = [
     images: [["decor-spread.jpg", "full"], ["decor-m1.jpg"], ["decor-m2.jpg"], ["decor-m3.jpg"], ["decor-m4.jpg"]],
   },
   {
-    id: "botmind", title: "Botmind", cat: "social", label: "Instagram carousel", year: "swipe →",
+    id: "botmind",
+    theme: { bg: 'radial-gradient(110% 80% at 90% 0%, #188cc2 0%, transparent 60%), linear-gradient(165deg, #0e72b2 0%, #1e447b 45%, #1a2451 100%)', ink: '#F2F8FF', soft: 'rgba(242,248,255,.78)', accent: '#8FD3FF', glow: 'rgba(24,140,194,.6)', dark: true }, title: "Botmind", cat: "social", label: "Instagram carousel", year: "swipe →",
     thumb: "img/bot-1.jpg",
     blurb: "An AI-service carousel with a cute robot guide",
     desc: "A six-slide swipeable carousel explaining an AI customer-service product. One continuous path flows across every slide so the story keeps you swiping until the call to action.",
@@ -34,7 +38,8 @@ const projects = [
     images: [["bot-1.jpg"], ["bot-2.jpg"], ["bot-3.jpg"], ["bot-4.jpg"], ["bot-5.jpg"], ["bot-6.jpg"]],
   },
   {
-    id: "shine", title: "Shine Art", cat: "branding", label: "Brand identity", year: "2024",
+    id: "shine",
+    theme: { bg: 'radial-gradient(100% 70% at 0% 0%, #d6be47 0%, transparent 60%), radial-gradient(90% 70% at 100% 100%, #5cba82 0%, transparent 60%), linear-gradient(160deg, #e9dc8f 0%, #dfe4d7 55%, #b9d6b5 100%)', ink: '#2E3A1C', soft: 'rgba(46,58,28,.75)', accent: '#3E8F5E', glow: 'rgba(185,188,83,.55)', dark: false }, title: "Shine Art", cat: "branding", label: "Brand identity", year: "2024",
     thumb: "img/shine-hero.jpg", wide: true,
     blurb: "A sparkly identity for an art-materials store",
     desc: "A custom typeface inspired by art supplies — paper rolls, books and pencils — with a gold-to-green gradient, twinkling star motif, logo explorations and a full stationery set.",
@@ -42,7 +47,8 @@ const projects = [
     images: [["shine-full.jpg", "full"], ["shine-logo.jpg"], ["shine-stat.jpg"]],
   },
   {
-    id: "dg", title: "Design Glam", cat: "branding", label: "Brand & moodboard", year: "interior",
+    id: "dg",
+    theme: { bg: 'radial-gradient(110% 80% at 100% 0%, #deb671 0%, transparent 55%), linear-gradient(165deg, #c9a15e 0%, #66523a 50%, #2f2418 100%)', ink: '#FFF5E6', soft: 'rgba(255,245,230,.8)', accent: '#F3D18E', glow: 'rgba(201,161,94,.55)', dark: true }, title: "Design Glam", cat: "branding", label: "Brand & moodboard", year: "interior",
     thumb: "img/dg-yellow.jpg",
     blurb: "Warm, glam identity for an interior studio",
     desc: "Logo and visual mood for an interior design brand: a floor-plan-meets-monogram mark (“plan + DG = Design Glam”) with a warm ochre, mocha and charcoal palette.",
@@ -50,7 +56,8 @@ const projects = [
     images: [["dg-logo.jpg", "full"], ["dg-full.jpg", "full"]],
   },
   {
-    id: "dkb", title: "DKB Gym", cat: "social", label: "Instagram posters", year: "Qatar",
+    id: "dkb",
+    theme: { bg: 'radial-gradient(120% 80% at 50% 0%, #c42a2d 0%, #a42426 25%, transparent 70%), radial-gradient(80% 60% at 0% 100%, #6e1416 0%, transparent 70%), linear-gradient(180deg, #8f1d20 0%, #3a0d10 55%, #150d0e 100%)', ink: '#FFF1EE', soft: 'rgba(255,241,238,.8)', accent: '#FF8A80', glow: 'rgba(196,42,45,.6)', dark: true }, title: "DKB Gym", cat: "social", label: "Instagram posters", year: "Qatar",
     thumb: "img/dkb-1.jpg",
     blurb: "High-energy posts for a martial-arts gym",
     desc: "A punchy Instagram poster series for a gym in Musheireb, Qatar — torn-paper textures, bold condensed type and a red-and-charcoal palette that feels as energetic as a training session.",
@@ -59,7 +66,8 @@ const projects = [
     images: [["dkb-1.jpg"], ["dkb-2.jpg"], ["dkb-3.jpg"]],
   },
   {
-    id: "mug", title: "MUG Coffeeshop", cat: "print", label: "Menu design", year: "☕",
+    id: "mug",
+    theme: { bg: 'radial-gradient(100% 70% at 80% 0%, #6b4a3a 0%, transparent 60%), linear-gradient(170deg, #3a2726 0%, #2e2122 50%, #1a1517 100%)', ink: '#F6EADF', soft: 'rgba(246,234,223,.78)', accent: '#E3B98F', glow: 'rgba(160,110,80,.5)', dark: true }, title: "MUG Coffeeshop", cat: "print", label: "Menu design", year: "☕",
     thumb: "img/mug.jpg", wide: true,
     blurb: "A moody, hand-drawn café menu",
     desc: "A three-panel café menu with delicate single-line illustrations of coffees, frappés and smoothies on a rich dark-roast texture — easy to read, lovely to hold.",
@@ -108,6 +116,16 @@ function openProject(id) {
   document.getElementById("lb-tags").innerHTML = p.tags.map((t) => `<span>${t}</span>`).join("");
   lbGal.className = "lb-gallery" + (p.gallery ? " " + p.gallery : "");
   lbGal.innerHTML = p.images.map(([src, cls]) => `<img src="img/${src}" class="${cls || ""}" alt="${p.title}" loading="lazy" />`).join("");
+  const t = p.theme, inner = lb.querySelector(".lb-inner");
+  inner.style.setProperty("--lb-bg", t.bg);
+  inner.style.setProperty("--lb-ink", t.ink);
+  inner.style.setProperty("--lb-soft", t.soft);
+  inner.style.setProperty("--lb-accent", t.accent);
+  inner.style.setProperty("--lb-glow", t.glow);
+  inner.style.setProperty("--lb-hero", `url(${t.hero || p.thumb})`);
+  inner.style.setProperty("--lb-hero-o", t.heroOpacity ?? .55);
+  inner.classList.toggle("dark", t.dark);
+  lb.style.setProperty("--lb-glow", t.glow);
   lb.classList.add("open");
   lb.setAttribute("aria-hidden", "false");
   lb.scrollTop = 0;
