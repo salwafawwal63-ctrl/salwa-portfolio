@@ -1,6 +1,34 @@
 // ✿ Salwa Fawal portfolio
 const projects = [
   {
+    id: "qs-brand", title: "Quissah Brand Identity", cat: "branding social", label: "Brand identity · Approved deck", year: "قصّة",
+    theme: { bg: 'radial-gradient(110% 80% at 100% 0%, #EFCCBA 0%, transparent 60%), radial-gradient(90% 70% at 0% 100%, #D0928E 0%, transparent 65%), linear-gradient(165deg, #FEF1F3 0%, #F6E1DC 55%, #EBC6BC 100%)', ink: '#4A2A26', soft: 'rgba(74,42,38,.75)', accent: '#B9706B', glow: 'rgba(208,146,142,.55)', dark: false },
+    thumb: "img/qs-thumb.jpg", wide: true,
+    blurb: "A gemstone brand that tells a story",
+    desc: "Quissah comes from the Arabic word قصّة, meaning story. I built its whole identity around that idea: a blush, rose and peach palette, an elegant bilingual wordmark, and typography in Qabyrinth, Scheherazade, Montserrat and Alexandria. From there it became zodiac cards, packaging, a full set of stone cards and a soft, approved social media look.",
+    tags: ["Naming concept", "Bilingual logo", "Colour palette", "Zodiac cards", "Packaging", "Social media kit"],
+    images: [["qs-slide-1.jpg", "full"], ["qs-slide-2.jpg", "full"], ["qs-slide-3.jpg", "full"], ["qs-slide-4.jpg", "full"]],
+  },
+  {
+    id: "sep", title: "Gemstone Brochure", cat: "print", label: "Print · Planet of Gemstones", year: "8 panels",
+    theme: { bg: 'radial-gradient(110% 70% at 50% 0%, #b0476a 0%, transparent 60%), radial-gradient(80% 60% at 0% 100%, #3d0f20 0%, transparent 70%), linear-gradient(170deg, #842645 0%, #5a1830 55%, #2a0b16 100%)', ink: '#FBEFD9', soft: 'rgba(251,239,217,.8)', accent: '#CBAD55', glow: 'rgba(203,173,85,.45)', dark: true },
+    thumb: "img/sep-thumb.jpg",
+    blurb: "An Arabic guide to stones, styling & care",
+    desc: "An eight-panel Arabic brochure for Planet of Gemstones. It covers the meaning of each gemstone, the best-selling zodiac bracelets, how to wear a stone and how to care for it, then closes with the brand's socials and a QR code. Wine and gold from the brand palette, with soft product photography between the text panels.",
+    tags: ["Brochure design", "Arabic typography", "Product photography", "Print layout", "QR & socials"],
+    gallery: "four",
+    images: [["sep-1.jpg"], ["sep-2.jpg"], ["sep-3.jpg"], ["sep-4.jpg"], ["sep-5.jpg"], ["sep-6.jpg"], ["sep-7.jpg"], ["sep-8.jpg"]],
+  },
+  {
+    id: "pg-brand", title: "Planet Brand Guidelines", cat: "branding", label: "Brand guidelines", year: "♦ gold",
+    theme: { bg: 'radial-gradient(100% 70% at 85% 0%, rgba(203,173,85,.55) 0%, transparent 55%), linear-gradient(165deg, #842645 0%, #6a1e38 50%, #0A0F0D 100%)', ink: '#FBEFD9', soft: 'rgba(251,239,217,.8)', accent: '#CBAD55', glow: 'rgba(132,38,69,.65)', dark: true },
+    thumb: "img/pg-guide-1.jpg",
+    blurb: "Wine, gold & a shooting-star gem",
+    desc: "The brand guidelines for Planet of Gemstones. They cover a five-colour palette (onyx, wine, gold, mauve and deep teal), logo variations for light, dark and wine backgrounds, and Lateef as the bilingual Arabic and English typeface, so every post, card and print piece stays on brand.",
+    tags: ["Brand guidelines", "Colour system", "Logo variations", "Bilingual typography"],
+    images: [["pg-guide-1.jpg"], ["pg-guide-2.jpg"], ["pg-guide-3.jpg"], ["pg-guide-4.jpg"]],
+  },
+  {
     id: "kiwi",
     theme: { bg: 'radial-gradient(120% 80% at 85% 0%, #c36226 0%, transparent 55%), radial-gradient(90% 70% at 0% 100%, #a43f2e 0%, transparent 60%), linear-gradient(160deg, #3b8086 0%, #1f5559 55%, #180d0d 100%)', ink: '#FFF6EE', soft: 'rgba(255,246,238,.78)', accent: '#F7B27A', glow: 'rgba(195,98,38,.55)', dark: true, hero: 'img/kiwi-stands.jpg', heroOpacity: .4 }, title: "Kiwi Garden Juices", cat: "branding social", label: "Branding · Social campaigns", year: "GCC",
     thumb: "img/kiwi-soon.jpg", wide: true,

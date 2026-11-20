@@ -10,7 +10,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23F6EEE3'/><text x='50' y='68' font-size='54' text-anchor='middle' font-family='Georgia' font-style='italic' fill='%233B2E28'>s</text><circle cx='72' cy='66' r='7' fill='%23EE9AB0'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,100;1,9..144,300..800,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Alexandria:wght@400;600&family=Montserrat:wght@400;600&family=Cormorant+Garamond:ital,wght@1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,100;1,9..144,300..800,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
@@ -44,6 +44,45 @@
     <section class="did">
       <p class="kicker reveal">What I do here</p>
       <ul><li class="reveal"><i>🤍</i><b>Visual identity</b>A calm beige, blush & gold mood across the whole feed.</li><li class="reveal"><i>🎁</i><b>Packaging stories</b>Zodiac cards, pouches & gift boxes that feel like a present.</li><li class="reveal"><i>🎬</i><b>Reels</b>Slow, sunlit product videos made to be saved and shared.</li><li class="reveal"><i>✍️</i><b>Copy & care</b>Captions, promo copy, customer replies and order coordination.</li></ul>
+    </section>
+
+
+    <!-- BRAND WORLD -->
+    <section class="world world-quissah" id="brand">
+      <div class="world-inner">
+        <div class="section-head">
+          <p class="kicker reveal">Brand world · approved deck</p>
+          <h2 class="reveal">Every stone tells a <em>story</em></h2>
+          <p class="lede reveal">Quissah comes from the Arabic word <span dir="rtl">قصّة</span>, meaning story. I built the identity around gemstones, zodiac symbolism and the feeling of giving something meaningful, then took it all the way to cards, packaging and the feed.</p>
+        </div>
+
+        <div class="world-cols">
+          <div class="spec reveal">
+            <p class="spec-label">Colour palette <small>tap to copy</small></p>
+            <div class="swatches three">
+              <button class="sw" style="--c:#D0928E" data-hex="#D0928E"><i></i><b>Rose clay</b><span>#D0928E</span></button>
+              <button class="sw" style="--c:#FEF1F3" data-hex="#FEF1F3"><i></i><b>Blush milk</b><span>#FEF1F3</span></button>
+              <button class="sw" style="--c:#EFCCBA" data-hex="#EFCCBA"><i></i><b>Peach sand</b><span>#EFCCBA</span></button>
+            </div>
+          </div>
+          <div class="spec type reveal">
+            <p class="spec-label">Typography</p>
+            <div class="type-list">
+              <div><span class="qa">Qabyrinth</span><small>logo &amp; display</small></div>
+              <div><span class="sch" dir="rtl">قصّة · شهرزاد</span><small>Scheherazade, Arabic</small></div>
+              <div><span class="mont">Montserrat</span><small>body &amp; labels</small></div>
+              <div><span class="alex" dir="rtl">الإسكندرية</span><small>Alexandria, Arabic UI</small></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deck">
+          <figure class="slide reveal"><span class="slide-no">01</span><img class="zoomable" data-group="qs" src="img/qs-slide-1.jpg" alt="Quissah brand identity overview" loading="lazy" /><figcaption><b>Brand identity overview</b>The name, concept, palette and type</figcaption></figure>
+          <figure class="slide reveal"><span class="slide-no">02</span><img class="zoomable" data-group="qs" src="img/qs-slide-2.jpg" alt="Quissah cards and mockups" loading="lazy" /><figcaption><b>Cards &amp; mockups</b>Zodiac cards, bracelets and gift packaging</figcaption></figure>
+          <figure class="slide reveal"><span class="slide-no">03</span><img class="zoomable" data-group="qs" src="img/qs-slide-3.jpg" alt="Quissah social media posts" loading="lazy" /><figcaption><b>Social media</b>Original posts in the Quissah look</figcaption></figure>
+          <figure class="slide reveal"><span class="slide-no">04</span><img class="zoomable" data-group="qs" src="img/qs-slide-4.jpg" alt="Quissah stone cards" loading="lazy" /><figcaption><b>Stone cards</b>The complete set of gemstone cards</figcaption></figure>
+        </div>
+      </div>
     </section>
 
     <section class="reels" id="reels">
@@ -89,6 +128,15 @@
     <p class="handwrite">designed with ♡, beige &amp; lots of coffee</p>
     <a href="/">home ↑</a>
   </footer>
+
+  <div class="zoom" id="zoom" aria-hidden="true" role="dialog" aria-modal="true">
+    <button class="z-close" aria-label="Close">×</button>
+    <button class="z-nav z-prev" aria-label="Previous">‹</button>
+    <img alt="" />
+    <button class="z-nav z-next" aria-label="Next">›</button>
+    <p class="z-count"></p>
+  </div>
+  <div class="toast" id="toast">copied! ♡</div>
   <script src="/brand.js"></script>
 </body>
 </html>

@@ -25,3 +25,39 @@ if (fine && !calm) {
     b.addEventListener("mouseleave", () => (b.style.transform = ""));
   });
 }
+
+// copy swatch hex
+const toast = document.getElementById("toast");
+const showToast = (t) => { if (!toast) return; toast.textContent = t; toast.classList.add("show"); clearTimeout(showToast.t); showToast.t = setTimeout(() => toast.classList.remove("show"), 1800); };
+document.querySelectorAll(".sw").forEach((b) => b.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(b.dataset.hex); showToast(`${b.dataset.hex} copied ♡`); } catch { showToast(b.dataset.hex); }
+}));
+
+// zoom viewer with groups + arrows + swipe
+const zoom = document.getElementById("zoom");
+if (zoom) {
+  const zImg = zoom.querySelector("img"), zCount = zoom.querySelector(".z-count");
+  let group = [], idx = 0;
+  const show = () => { zImg.src = group[idx].src; zImg.alt = group[idx].alt; zCount.textContent = `${idx + 1} / ${group.length}`; };
+  const open = (img) => { group = [...document.querySelectorAll(`.zoomable[data-group="${img.dataset.group}"]`)]; idx = group.indexOf(img); show(); zoom.classList.add("open"); zoom.setAttribute("aria-hidden", "false"); document.body.style.overflow = "hidden"; };
+  const close = () => { zoom.classList.remove("open"); zoom.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; };
+  const step = (d) => { idx = (idx + d + group.length) % group.length; show(); };
+  let moved = false;
+  document.querySelectorAll(".zoomable").forEach((img) => img.addEventListener("click", () => { if (!moved) open(img); }));
+  zoom.querySelector(".z-close").onclick = close;
+  zoom.querySelector(".z-prev").onclick = (e) => { e.stopPropagation(); step(-1); };
+  zoom.querySelector(".z-next").onclick = (e) => { e.stopPropagation(); step(1); };
+  zoom.addEventListener("click", (e) => { if (e.target === zoom) close(); });
+  addEventListener("keydown", (e) => { if (!zoom.classList.contains("open")) return; if (e.key === "Escape") close(); if (e.key === "ArrowRight") step(1); if (e.key === "ArrowLeft") step(-1); });
+  let sx = 0; zoom.addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
+  zoom.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1); });
+
+  // drag-to-scroll brochure strip on desktop
+  document.querySelectorAll(".strip").forEach((s) => {
+    let down = false, x0 = 0, l0 = 0;
+    s.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") return; down = true; moved = false; x0 = e.clientX; l0 = s.scrollLeft; });
+    addEventListener("pointermove", (e) => { if (!down) return; const dx = e.clientX - x0; if (Math.abs(dx) > 5) { moved = true; s.classList.add("dragging"); } s.scrollLeft = l0 - dx; });
+    addEventListener("pointerup", () => { if (!down) return; down = false; s.classList.remove("dragging"); setTimeout(() => (moved = false), 0); });
+    s.querySelectorAll("img").forEach((i) => i.addEventListener("dragstart", (e) => e.preventDefault()));
+  });
+}
