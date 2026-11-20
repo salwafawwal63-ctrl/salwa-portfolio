@@ -29,10 +29,10 @@ const projects = [
     images: [["pg-guide-1.jpg"], ["pg-guide-2.jpg"], ["pg-guide-3.jpg"], ["pg-guide-4.jpg"]],
   },
   {
-    id: "nostalgia", title: "Nostalgia: Rococo to Brand", cat: "branding", label: "Brand concept · Pecha Kucha", year: "▶ 24 slides",
+    id: "nostalgia", title: "Nostalgia · Rococo Pecha Kucha", cat: "branding", label: "Brand concept · Pecha Kucha", year: "▶ 24 slides",
     theme: { bg: 'radial-gradient(110% 80% at 90% 0%, rgba(233,217,180,.9) 0%, transparent 55%), radial-gradient(80% 60% at 0% 100%, #6f9ea2 0%, transparent 70%), linear-gradient(170deg, #b9d5d5 0%, #9cc2c4 50%, #6f9ea2 100%)', ink: '#2C3B3C', soft: 'rgba(44,59,60,.78)', accent: '#A9833F', glow: 'rgba(169,131,63,.45)', dark: false },
     thumb: "img/pk-thumb.jpg", wide: true,
-    blurb: "A Pecha Kucha that turns Rococo into a fashion brand, with its original Morph animation",
+    blurb: "From Rococo inspiration to a fashion brand, with its original Morph animation",
     desc: "A Pecha Kucha presentation that starts from the Rococo style (gilded interiors, pastel gowns, fans, lace) and turns it into Nostalgia, a romantic fashion brand. Along the way: moodboards, a soft aqua, blush and sand palette with the meaning of each colour, logo sketches, the final logo in four colourways, typography in Melodies Constellation and Bely Display, posters, a clothing collection, and brand mockups from packaging and shopping bags to the shop sign. It plays with its original PowerPoint Morph animation, so pictures glide, resize and change colour between slides, just like the live talk ▶",
     tags: ["Pecha Kucha", "Research & moodboards", "Logo design", "Colour palette", "Typography", "Mockups"],
     morph: "pk-deck.json",
@@ -134,44 +134,20 @@ const projects = [
   },
 ];
 
-// build grid: curated editorial order + sizes
-const LAYOUT = [
-  ["qs-brand", "wide", "Brand identity · Quissah"],
-  ["pg-brand", "std", "Brand guidelines · Planet of Gemstones"],
-  ["sep", "std", "Print · Planet of Gemstones"],
-  ["nostalgia", "wide", "Brand concept · Presentation"],
-  ["boho", "half", "Editorial · Magazine"],
-  ["indian", "half", "Editorial · Magazine"],
-  ["kiwi", "wide", "Branding & social · Kiwi Garden"],
-  ["bustan", "std", "Brand identity · Bustan"],
-  ["shine", "wide", "Brand identity · Shine Art"],
-  ["dg", "std", "Brand identity · Design Glam"],
-  ["decor", "std", "Editorial · DECOR"],
-  ["botmind", "std", "Social media · Botmind"],
-  ["dkb", "std", "Social media · DKB Gym, Qatar"],
-  ["mug", "full", "Print · MUG Coffeeshop"],
-];
+// build grid
 const grid = document.getElementById("grid");
-grid.innerHTML = LAYOUT.map(([id, size, kick], i) => {
-  const p = projects.find((x) => x.id === id);
-  if (!p) return "";
-  const no = String(i + 1).padStart(2, "0");
-  return `
-  <article class="card reveal size-${size}" data-cat="${p.cat}" data-id="${p.id}" tabindex="0">
+grid.innerHTML = projects.map((p) => `
+  <article class="card reveal ${p.wide ? "wide" : ""}" data-cat="${p.cat}" data-id="${p.id}" tabindex="0">
     <div class="thumb">
       <img src="${p.thumb}" alt="${p.title} — ${p.label}" loading="lazy" />
-      <span class="view">View project <i>→</i></span>
+      <span class="yr">${p.year}</span>
+      <span class="view">peek inside ✿</span>
     </div>
     <div class="meta">
-      <div>
-        <p class="c-kick"><span class="c-no">${no}</span>${kick}</p>
-        <h3>${p.title}</h3>
-        <p class="c-desc">${p.blurb}</p>
-      </div>
+      <div><h3>${p.title}</h3><p>${p.label} · ${p.blurb}</p></div>
       <span class="arrow">→</span>
     </div>
-  </article>`;
-}).join("");
+  </article>`).join("");
 
 // filters
 document.querySelectorAll(".chip").forEach((chip) => {
@@ -179,7 +155,6 @@ document.querySelectorAll(".chip").forEach((chip) => {
     document.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
     chip.classList.add("active");
     const f = chip.dataset.filter;
-    grid.classList.toggle("filtered", f !== "all");
     document.querySelectorAll(".card").forEach((card) => {
       const show = f === "all" || card.dataset.cat.split(" ").includes(f);
       card.classList.toggle("hidden", !show);
