@@ -462,3 +462,46 @@ h2 em{color:var(--pink-deep)}
 .hero-title .pink{color:var(--pink-deep)}
 .p2{top:21%}
 @media (max-width:720px){.p2{top:14%}.p3{bottom:0}}
+
+/* ===== flipbook ===== */
+.lb-gallery.has-book{display:block}
+.book-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;padding:10px 0 4px}
+.book{position:relative;width:min(100%,980px);aspect-ratio:1800/1273;perspective:2600px;transition:transform .7s cubic-bezier(.3,1.1,.4,1);outline:none}
+.book.closed-front{transform:translateX(-25%)}
+.book.closed-back{transform:translateX(25%)}
+.book .page,.leaf{position:absolute;top:0;height:100%;width:50%}
+.book .page.left{left:0}.book .page.right{right:0}
+.book .page img,.leaf img{width:100%;height:100%;object-fit:cover;display:block}
+.book .page{box-shadow:0 30px 60px -28px rgba(0,0,0,.65)}
+.book .page.left{border-radius:10px 0 0 10px;overflow:hidden}
+.book .page.right{border-radius:0 10px 10px 0;overflow:hidden}
+.book .page.blank{box-shadow:none;background:transparent}
+.book .page.blank img{visibility:hidden}
+.book .page.left::after,.book .page.right::after{content:"";position:absolute;top:0;bottom:0;width:14%;pointer-events:none}
+.book .page.left::after{right:0;background:linear-gradient(to left,rgba(0,0,0,.28),transparent)}
+.book .page.right::after{left:0;background:linear-gradient(to right,rgba(0,0,0,.28),transparent)}
+.book .page.blank::after{display:none}
+.leaf{display:none;transform-style:preserve-3d;z-index:3}
+.leaf.fwd,.leaf.bwd{display:block}
+.leaf.fwd{right:0;transform-origin:left center}
+.leaf.bwd{left:0;transform-origin:right center}
+.leaf.go{transition:transform .8s cubic-bezier(.45,.05,.3,1)}
+.leaf.fwd.go{transform:rotateY(-180deg)}
+.leaf.bwd.go{transform:rotateY(180deg)}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.leaf .back{transform:rotateY(180deg)}
+.leaf.fwd .front{border-radius:0 10px 10px 0}.leaf.fwd .back{border-radius:10px 0 0 10px}
+.leaf.bwd .front{border-radius:10px 0 0 10px}.leaf.bwd .back{border-radius:0 10px 10px 0}
+.leaf .face.blank img{visibility:hidden}
+.leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,rgba(0,0,0,.18),transparent 30%,transparent 70%,rgba(0,0,0,.12))}
+.hot{position:absolute;top:0;height:100%;width:50%;z-index:4;cursor:pointer}
+.hot.prev{left:0;cursor:w-resize}.hot.next{right:0;cursor:e-resize}
+.book-ctrl{display:flex;align-items:center;gap:16px}
+.bk-btn{width:46px;height:46px;border-radius:50%;background:var(--lb-ink);color:#1a1214;font-size:20px;transition:transform .3s,background .3s,opacity .3s}
+.bk-btn:hover:not(:disabled){background:var(--lb-accent);transform:scale(1.08)}
+.bk-btn:disabled{opacity:.3;cursor:default}
+.bk-dots{display:flex;gap:8px}
+.bk-dots button{width:9px;height:9px;border-radius:99px;background:color-mix(in srgb,var(--lb-ink) 35%,transparent);transition:all .35s}
+.bk-dots button.on{width:28px;background:var(--lb-accent)}
+.bk-hint{font-family:var(--hand);font-size:21px;color:var(--lb-soft)}
+@media (max-width:720px){.book.closed-front{transform:translateX(-25%) scale(.98)}.bk-hint{font-size:18px}}

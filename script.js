@@ -29,6 +29,16 @@ const projects = [
     images: [["pg-guide-1.jpg"], ["pg-guide-2.jpg"], ["pg-guide-3.jpg"], ["pg-guide-4.jpg"]],
   },
   {
+    id: "boho", title: "Boho Vibes Interiors", cat: "print", label: "Editorial · Magazine design", year: "flip ↗",
+    theme: { bg: 'radial-gradient(110% 80% at 90% 0%, rgba(201,169,133,.75) 0%, transparent 55%), radial-gradient(80% 60% at 0% 100%, #24382c 0%, transparent 70%), linear-gradient(170deg, #4d6b56 0%, #34503f 50%, #1d2c23 100%)', ink: '#F7EFE3', soft: 'rgba(247,239,227,.82)', accent: '#E3A77E', glow: 'rgba(181,101,63,.5)', dark: true },
+    thumb: "img/boho-thumb.jpg", wide: true,
+    blurb: "A boho interiors magazine to flip through",
+    desc: "An interiors magazine about boho living: macramé, houseplants and a calm, earthy colour palette. Each spread sits on one shared grid, so the arches, stripes and terracotta, sage and sand tones carry from the cover to the back page. There are infographics for popular macramé pieces, a plant care guide and a 60·25·15 colour rule. Turn the pages like the real thing ↓",
+    tags: ["Magazine layout", "Grid system", "Infographics", "Colour palette", "Illustration"],
+    book: ["boho-1.jpg", "boho-2.jpg", "boho-3.jpg", "boho-4.jpg", "boho-5.jpg", "boho-6.jpg", "boho-7.jpg", "boho-8.jpg"],
+    images: [],
+  },
+  {
     id: "indian", title: "Indian Cuisine Magazine", cat: "print", label: "Editorial · Magazine design", year: "spice ✦",
     theme: { bg: 'radial-gradient(110% 80% at 85% 0%, #F2A33A 0%, transparent 55%), radial-gradient(80% 60% at 0% 100%, #2b1208 0%, transparent 70%), linear-gradient(170deg, #c8661c 0%, #6b3215 50%, #2a1209 100%)', ink: '#FFF3E0', soft: 'rgba(255,243,224,.82)', accent: '#FFC15E', glow: 'rgba(232,144,42,.55)', dark: true },
     thumb: "img/ic-thumb.jpg", wide: true,
@@ -151,8 +161,9 @@ function openProject(id) {
   document.getElementById("lb-title").textContent = p.title;
   document.getElementById("lb-desc").textContent = p.desc;
   document.getElementById("lb-tags").innerHTML = p.tags.map((t) => `<span>${t}</span>`).join("");
-  lbGal.className = "lb-gallery" + (p.gallery ? " " + p.gallery : "");
+  lbGal.className = "lb-gallery" + (p.gallery ? " " + p.gallery : "") + (p.book ? " has-book" : "");
   lbGal.innerHTML = p.images.map(([src, cls]) => `<img src="img/${src}" class="${cls || ""}" alt="${p.title}" loading="lazy" />`).join("");
+  if (p.book) mountBook(lbGal, p.book, p.title);
   const t = p.theme, inner = lb.querySelector(".lb-inner");
   inner.style.setProperty("--lb-bg", t.bg);
   inner.style.setProperty("--lb-ink", t.ink);
@@ -268,3 +279,65 @@ document.getElementById("copy").addEventListener("click", async () => {
   catch { toast.textContent = "salwafawal63@gmail.com"; }
   toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2200);
 });
+
+
+// ✿ flipbook: pages turn like a real magazine
+function mountBook(host, pages, title) {
+  // spreads: cover alone on the right, then pairs, back cover alone on the left
+  const spreads = [[null, pages[0]]];
+  for (let i = 1; i < pages.length - 1; i += 2) spreads.push([pages[i], pages[i + 1] || null]);
+  if (pages.length % 2 === 0) spreads.push([pages[pages.length - 1], null]);
+  pages.forEach((p) => { const im = new Image(); im.src = "img/" + p; }); // preload
+
+  host.innerHTML = `
+    <div class="book-wrap">
+      <div class="book" tabindex="0" aria-label="${title} — use arrow keys to turn pages">
+        <div class="page left"><img alt="" /></div>
+        <div class="page right"><img alt="" /></div>
+        <div class="leaf"><div class="face front"><img alt="" /></div><div class="face back"><img alt="" /></div></div>
+        <button class="hot prev" aria-label="Previous page"></button>
+        <button class="hot next" aria-label="Next page"></button>
+      </div>
+      <div class="book-ctrl">
+        <button class="bk-btn bk-prev" aria-label="Previous">←</button>
+        <div class="bk-dots"></div>
+        <button class="bk-btn bk-next" aria-label="Next">→</button>
+      </div>
+      <p class="bk-hint">click the pages, use ← → or swipe to turn ✿</p>
+    </div>`;
+  const book = host.querySelector(".book"), L = book.querySelector(".left img"), R = book.querySelector(".right img");
+  const leaf = book.querySelector(".leaf"), F = leaf.querySelector(".front img"), B = leaf.querySelector(".back img");
+  const dots = host.querySelector(".bk-dots");
+  dots.innerHTML = spreads.map((_, i) => `<button aria-label="Spread ${i + 1}"></button>`).join("");
+  let cur = 0, busy = false;
+  const set = (img, src) => { if (src) { img.src = "img/" + src; img.parentElement.classList.remove("blank"); } else { img.removeAttribute("src"); img.parentElement.classList.add("blank"); } };
+  const paint = () => {
+    const [l, r] = spreads[cur]; set(L, l); set(R, r);
+    book.classList.toggle("closed-front", !l); book.classList.toggle("closed-back", !r);
+    [...dots.children].forEach((d, i) => d.classList.toggle("on", i === cur));
+    host.querySelector(".bk-prev").disabled = cur === 0;
+    host.querySelector(".bk-next").disabled = cur === spreads.length - 1;
+  };
+  const turn = (dir) => {
+    const to = cur + dir;
+    if (busy || to < 0 || to >= spreads.length) return;
+    busy = true;
+    const [cl, cr] = spreads[cur], [nl, nr] = spreads[to];
+    leaf.className = "leaf " + (dir > 0 ? "fwd" : "bwd");
+    if (dir > 0) { set(F, cr); set(B, nl); set(R, nr); }
+    else { set(F, cl); set(B, nr); set(L, nl); }
+    book.classList.toggle("closed-front", !nl); book.classList.toggle("closed-back", !nr);
+    void leaf.offsetWidth; leaf.classList.add("go");
+    setTimeout(() => { cur = to; leaf.className = "leaf"; paint(); busy = false; }, 820);
+  };
+  host.querySelector(".hot.prev").onclick = () => turn(-1);
+  host.querySelector(".hot.next").onclick = () => turn(1);
+  host.querySelector(".bk-prev").onclick = () => turn(-1);
+  host.querySelector(".bk-next").onclick = () => turn(1);
+  [...dots.children].forEach((d, i) => (d.onclick = () => { if (i !== cur && !busy) { cur = i; paint(); } }));
+  const onKey = (e) => { if (!document.body.contains(book)) return removeEventListener("keydown", onKey); if (!lb.classList.contains("open")) return; if (e.key === "ArrowRight") turn(1); if (e.key === "ArrowLeft") turn(-1); };
+  addEventListener("keydown", onKey);
+  let sx = 0; book.addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
+  book.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) turn(dx < 0 ? 1 : -1); });
+  paint();
+}
