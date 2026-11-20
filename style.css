@@ -505,3 +505,10 @@ h2 em{color:var(--pink-deep)}
 .bk-dots button.on{width:28px;background:var(--lb-accent)}
 .bk-hint{font-family:var(--hand);font-size:21px;color:var(--lb-soft)}
 @media (max-width:720px){.book.closed-front{transform:translateX(-25%) scale(.98)}.bk-hint{font-size:18px}}
+
+/* flipbook fixes: keep gallery hover/rounded styles off the book pages */
+.lb-gallery .book img{border-radius:0!important;box-shadow:none!important;transform:none!important;transition:none!important;background:transparent}
+.leaf{will-change:transform}
+.leaf .front{transform:rotateY(0deg) translateZ(.5px)}
+.leaf .back{transform:rotateY(180deg) translateZ(.5px)}
+.book{transition:transform .8s cubic-bezier(.45,.05,.3,1)}

@@ -310,7 +310,10 @@ function mountBook(host, pages, title) {
   const dots = host.querySelector(".bk-dots");
   dots.innerHTML = spreads.map((_, i) => `<button aria-label="Spread ${i + 1}"></button>`).join("");
   let cur = 0, busy = false;
-  const set = (img, src) => { if (src) { img.src = "img/" + src; img.parentElement.classList.remove("blank"); } else { img.removeAttribute("src"); img.parentElement.classList.add("blank"); } };
+  const set = (img, src) => {
+    if (src) { const u = "img/" + src; if (img.getAttribute("src") !== u) img.src = u; img.parentElement.classList.remove("blank"); }
+    else { img.removeAttribute("src"); img.parentElement.classList.add("blank"); }
+  };
   const paint = () => {
     const [l, r] = spreads[cur]; set(L, l); set(R, r);
     book.classList.toggle("closed-front", !l); book.classList.toggle("closed-back", !r);
@@ -318,17 +321,27 @@ function mountBook(host, pages, title) {
     host.querySelector(".bk-prev").disabled = cur === 0;
     host.querySelector(".bk-next").disabled = cur === spreads.length - 1;
   };
-  const turn = (dir) => {
+  const ready = (...imgs) => Promise.all(imgs.map((im) => (im.getAttribute("src") && im.decode ? im.decode().catch(() => {}) : Promise.resolve())));
+  const turn = async (dir) => {
     const to = cur + dir;
     if (busy || to < 0 || to >= spreads.length) return;
     busy = true;
     const [cl, cr] = spreads[cur], [nl, nr] = spreads[to];
+    // load the turning leaf before anything moves, so nothing flashes
+    if (dir > 0) { set(F, cr); set(B, nl); } else { set(F, cl); set(B, nr); }
+    await ready(F, B);
     leaf.className = "leaf " + (dir > 0 ? "fwd" : "bwd");
-    if (dir > 0) { set(F, cr); set(B, nl); set(R, nr); }
-    else { set(F, cl); set(B, nr); set(L, nl); }
+    // now reveal the page underneath (covered by the leaf, so the swap is invisible)
+    if (dir > 0) set(R, nr); else set(L, nl);
+    await ready(dir > 0 ? R : L);
     book.classList.toggle("closed-front", !nl); book.classList.toggle("closed-back", !nr);
-    void leaf.offsetWidth; leaf.classList.add("go");
-    setTimeout(() => { cur = to; leaf.className = "leaf"; paint(); busy = false; }, 820);
+    void leaf.offsetWidth;
+    leaf.classList.add("go");
+    await new Promise((r) => setTimeout(r, 820));
+    // update the other half while the leaf still covers it, then remove the leaf
+    if (dir > 0) set(L, nl); else set(R, nr);
+    await ready(L, R);
+    cur = to; leaf.className = "leaf"; paint(); busy = false;
   };
   host.querySelector(".hot.prev").onclick = () => turn(-1);
   host.querySelector(".hot.next").onclick = () => turn(1);
