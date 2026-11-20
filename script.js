@@ -29,6 +29,16 @@ const projects = [
     images: [["pg-guide-1.jpg"], ["pg-guide-2.jpg"], ["pg-guide-3.jpg"], ["pg-guide-4.jpg"]],
   },
   {
+    id: "nostalgia", title: "Nostalgia · Rococo Pecha Kucha", cat: "branding", label: "Brand concept · Pecha Kucha", year: "▶ 24 slides",
+    theme: { bg: 'radial-gradient(110% 80% at 90% 0%, rgba(233,217,180,.9) 0%, transparent 55%), radial-gradient(80% 60% at 0% 100%, #6f9ea2 0%, transparent 70%), linear-gradient(170deg, #b9d5d5 0%, #9cc2c4 50%, #6f9ea2 100%)', ink: '#2C3B3C', soft: 'rgba(44,59,60,.78)', accent: '#A9833F', glow: 'rgba(169,131,63,.45)', dark: false },
+    thumb: "img/pk-thumb.jpg", wide: true,
+    blurb: "From Rococo inspiration to a fashion brand",
+    desc: "A Pecha Kucha presentation that starts from the Rococo style (gilded interiors, pastel gowns, fans, lace) and turns it into Nostalgia, a romantic fashion brand. Along the way: moodboards, a soft aqua, blush and sand palette with the meaning of each colour, logo sketches, the final logo in four colourways, typography in Melodies Constellation and Bely Display, posters, a clothing collection, and brand mockups from packaging and shopping bags to the shop sign. It plays like the real presentation ▶",
+    tags: ["Pecha Kucha", "Research & moodboards", "Logo design", "Colour palette", "Typography", "Mockups"],
+    deck: ["pk-01.jpg", "pk-02.jpg", "pk-03.jpg", "pk-04.jpg", "pk-05.jpg", "pk-06.jpg", "pk-07.jpg", "pk-08.jpg", "pk-09.jpg", "pk-10.jpg", "pk-11.jpg", "pk-12.jpg", "pk-13.jpg", "pk-14.jpg", "pk-15.jpg", "pk-16.jpg", "pk-17.jpg", "pk-18.jpg", "pk-19.jpg", "pk-20.jpg", "pk-21.jpg", "pk-22.jpg", "pk-23.jpg", "pk-24.jpg"],
+    images: [],
+  },
+  {
     id: "boho", title: "Boho Vibes Interiors", cat: "print", label: "Editorial · Magazine design", year: "flip ↗",
     theme: { bg: 'radial-gradient(110% 80% at 90% 0%, rgba(201,169,133,.75) 0%, transparent 55%), radial-gradient(80% 60% at 0% 100%, #24382c 0%, transparent 70%), linear-gradient(170deg, #4d6b56 0%, #34503f 50%, #1d2c23 100%)', ink: '#F7EFE3', soft: 'rgba(247,239,227,.82)', accent: '#E3A77E', glow: 'rgba(181,101,63,.5)', dark: true },
     thumb: "img/boho-thumb.jpg", wide: true,
@@ -161,9 +171,10 @@ function openProject(id) {
   document.getElementById("lb-title").textContent = p.title;
   document.getElementById("lb-desc").textContent = p.desc;
   document.getElementById("lb-tags").innerHTML = p.tags.map((t) => `<span>${t}</span>`).join("");
-  lbGal.className = "lb-gallery" + (p.gallery ? " " + p.gallery : "") + (p.book ? " has-book" : "");
+  lbGal.className = "lb-gallery" + (p.gallery ? " " + p.gallery : "") + (p.book || p.deck ? " has-book" : "");
   lbGal.innerHTML = p.images.map(([src, cls]) => `<img src="img/${src}" class="${cls || ""}" alt="${p.title}" loading="lazy" />`).join("");
   if (p.book) mountBook(lbGal, p.book, p.title);
+  if (p.deck) mountDeck(lbGal, p.deck, p.title);
   const t = p.theme, inner = lb.querySelector(".lb-inner");
   inner.style.setProperty("--lb-bg", t.bg);
   inner.style.setProperty("--lb-ink", t.ink);
@@ -356,4 +367,80 @@ function mountBook(host, pages, title) {
   let sx = 0; book.addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
   book.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) turn(dx < 0 ? 1 : -1); });
   paint();
+}
+
+
+// ▶ Pecha Kucha player: timed slides with a progress bar, like the real talk
+function mountDeck(host, slides, title) {
+  const PER = 4200;
+  host.innerHTML = `
+    <div class="deck-player" tabindex="0" aria-label="${title} slideshow">
+      <div class="dp-stage">
+        <img class="dp-a show" alt="" /><img class="dp-b" alt="" />
+        <button class="dp-hot prev" aria-label="Previous slide"></button>
+        <button class="dp-hot next" aria-label="Next slide"></button>
+      </div>
+      <div class="dp-bar">${slides.map(() => "<span><i></i></span>").join("")}</div>
+      <div class="dp-ctrl">
+        <button class="bk-btn dp-prev" aria-label="Previous">←</button>
+        <button class="dp-play" aria-label="Pause"><span class="ic">❚❚</span><span class="lbl">pause</span></button>
+        <button class="bk-btn dp-next" aria-label="Next">→</button>
+        <span class="dp-count"></span>
+      </div>
+      <div class="dp-thumbs">${slides.map((s, i) => `<button aria-label="Slide ${i + 1}"><img src="img/${s}" alt="" loading="lazy" /></button>`).join("")}</div>
+    </div>`;
+  const root = host.querySelector(".deck-player");
+  let a = root.querySelector(".dp-a"), b = root.querySelector(".dp-b");
+  const segs = [...root.querySelectorAll(".dp-bar span")], thumbs = [...root.querySelectorAll(".dp-thumbs button")];
+  const playBtn = root.querySelector(".dp-play");
+  let cur = 0, playing = !matchMedia("(prefers-reduced-motion: reduce)").matches, timer = null;
+  slides.forEach((s) => { const im = new Image(); im.src = "img/" + s; });
+  const show = (i, instant) => {
+    cur = (i + slides.length) % slides.length;
+    b.src = "img/" + slides[cur];
+    const swap = () => { b.classList.add("show"); a.classList.remove("show"); [a, b] = [b, a]; };
+    instant || !b.decode ? swap() : b.decode().then(swap, swap);
+    segs.forEach((sg, k) => { sg.className = k < cur ? "done" : k === cur ? "now" : ""; });
+    thumbs.forEach((t, k) => t.classList.toggle("on", k === cur));
+    const t = thumbs[cur], strip = t.parentElement;
+    strip.scrollTo({ left: t.offsetLeft - strip.clientWidth / 2 + t.clientWidth / 2, behavior: "smooth" });
+    root.querySelector(".dp-count").textContent = `${String(cur + 1).padStart(2, "0")} / ${slides.length}`;
+    restart();
+  };
+  const restart = () => {
+    clearTimeout(timer);
+    const seg = segs[cur].querySelector("i");
+    seg.style.transition = "none"; seg.style.width = "0"; void seg.offsetWidth;
+    if (playing) { seg.style.transition = `width ${PER}ms linear`; seg.style.width = "100%"; timer = setTimeout(tick, PER); }
+  };
+  const tick = () => {
+    if (!document.body.contains(root) || !lb.classList.contains("open")) return clearTimeout(timer);
+    if (cur === slides.length - 1) { setPlay(false); return; }
+    show(cur + 1);
+  };
+  const setPlay = (on) => {
+    playing = on; root.classList.toggle("paused", !on);
+    playBtn.querySelector(".ic").textContent = on ? "❚❚" : "▶";
+    playBtn.querySelector(".lbl").textContent = on ? "pause" : cur === slides.length - 1 ? "replay" : "play";
+    playBtn.setAttribute("aria-label", on ? "Pause" : "Play");
+    restart();
+  };
+  playBtn.onclick = () => { if (!playing && cur === slides.length - 1) { setPlay(true); show(0); } else setPlay(!playing); };
+  root.querySelector(".dp-prev").onclick = root.querySelector(".dp-hot.prev").onclick = () => show(cur - 1);
+  root.querySelector(".dp-next").onclick = root.querySelector(".dp-hot.next").onclick = () => show(cur + 1);
+  thumbs.forEach((t, k) => (t.onclick = () => show(k)));
+  segs.forEach((sg, k) => (sg.onclick = () => show(k)));
+  const onKey = (e) => {
+    if (!document.body.contains(root)) return removeEventListener("keydown", onKey);
+    if (!lb.classList.contains("open")) return;
+    if (e.key === "ArrowRight") show(cur + 1);
+    if (e.key === "ArrowLeft") show(cur - 1);
+    if (e.key === " ") { e.preventDefault(); playBtn.click(); }
+  };
+  addEventListener("keydown", onKey);
+  let sx = 0; const st = root.querySelector(".dp-stage");
+  st.addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
+  st.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); });
+  a.src = "img/" + slides[0];
+  setPlay(playing); show(0, true);
 }
