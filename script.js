@@ -135,9 +135,21 @@ const projects = [
 ];
 
 // build grid
+// order + size of each card (wide = 2/3 row, half = 1/2 row, normal = 1/3 row)
+const ORDER = [
+  ["qs-brand", "wide"], ["sep", ""],
+  ["boho", "wide"], ["pg-brand", ""],
+  ["bustan", "wide"], ["decor", ""],
+  ["shine", "half"], ["indian", "half"],
+  ["nostalgia", "wide"], ["botmind", ""],
+  ["kiwi", "wide"], ["dg", ""],
+  ["dkb", ""], ["mug", "wide"],
+];
+const ordered = ORDER.map(([id, size]) => ({ ...projects.find((x) => x.id === id), size })).filter((p) => p.id);
+projects.forEach((p) => { if (!ordered.some((o) => o.id === p.id)) ordered.push({ ...p, size: p.wide ? "wide" : "" }); });
 const grid = document.getElementById("grid");
-grid.innerHTML = projects.map((p) => `
-  <article class="card reveal ${p.wide ? "wide" : ""}" data-cat="${p.cat}" data-id="${p.id}" tabindex="0">
+grid.innerHTML = ordered.map((p) => `
+  <article class="card reveal ${p.size}" data-cat="${p.cat}" data-id="${p.id}" tabindex="0">
     <div class="thumb">
       <img src="${p.thumb}" alt="${p.title} — ${p.label}" loading="lazy" />
       <span class="yr">${p.year}</span>
