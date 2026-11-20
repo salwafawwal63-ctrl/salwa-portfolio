@@ -321,7 +321,10 @@ function mountBook(host, pages, title) {
     host.querySelector(".bk-prev").disabled = cur === 0;
     host.querySelector(".bk-next").disabled = cur === spreads.length - 1;
   };
-  const ready = (...imgs) => Promise.all(imgs.map((im) => (im.getAttribute("src") && im.decode ? im.decode().catch(() => {}) : Promise.resolve())));
+  const ready = (...imgs) => Promise.race([
+    Promise.all(imgs.map((im) => (im.getAttribute("src") && im.decode ? im.decode().catch(() => {}) : Promise.resolve()))),
+    new Promise((r) => setTimeout(r, 250)), // never let a slow image block the turn
+  ]);
   const turn = async (dir) => {
     const to = cur + dir;
     if (busy || to < 0 || to >= spreads.length) return;
