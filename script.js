@@ -29,6 +29,15 @@ const projects = [
     images: [["pg-guide-1.jpg"], ["pg-guide-2.jpg"], ["pg-guide-3.jpg"], ["pg-guide-4.jpg"]],
   },
   {
+    id: "indian", title: "Indian Cuisine Magazine", cat: "print", label: "Editorial · Magazine design", year: "spice ✦",
+    theme: { bg: 'radial-gradient(110% 80% at 85% 0%, #F2A33A 0%, transparent 55%), radial-gradient(80% 60% at 0% 100%, #2b1208 0%, transparent 70%), linear-gradient(170deg, #c8661c 0%, #6b3215 50%, #2a1209 100%)', ink: '#FFF3E0', soft: 'rgba(255,243,224,.82)', accent: '#FFC15E', glow: 'rgba(232,144,42,.55)', dark: true },
+    thumb: "img/ic-thumb.jpg", wide: true,
+    blurb: "A spice-rich editorial on Indian food",
+    desc: "A magazine that takes the reader through India's regional flavours, spices, cooking techniques and food traditions. A bold custom display title, warm saffron and turmeric tones, mandala ornaments and rich food photography carry every spread, from the cover to a closing restaurant feature.",
+    tags: ["Magazine layout", "Editorial typography", "Image editing", "Colour story", "Cover design"],
+    images: [["ic-cover.jpg"], ["ic-back.jpg"], ["ic-spread-1.jpg", "full"], ["ic-spread-2.jpg", "full"], ["ic-spread-3.jpg", "full"]],
+  },
+  {
     id: "kiwi",
     theme: { bg: 'radial-gradient(120% 80% at 85% 0%, #c36226 0%, transparent 55%), radial-gradient(90% 70% at 0% 100%, #a43f2e 0%, transparent 60%), linear-gradient(160deg, #3b8086 0%, #1f5559 55%, #180d0d 100%)', ink: '#FFF6EE', soft: 'rgba(255,246,238,.78)', accent: '#F7B27A', glow: 'rgba(195,98,38,.55)', dark: true, hero: 'img/kiwi-stands.jpg', heroOpacity: .4 }, title: "Kiwi Garden Juices", cat: "branding social", label: "Branding · Social campaigns", year: "GCC",
     thumb: "img/kiwi-soon.jpg", wide: true,
