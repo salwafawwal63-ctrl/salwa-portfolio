@@ -32,9 +32,10 @@ const projects = [
     id: "nostalgia", title: "Nostalgia · Rococo Pecha Kucha", cat: "branding", label: "Brand concept · Pecha Kucha", year: "▶ 24 slides",
     theme: { bg: 'radial-gradient(110% 80% at 90% 0%, rgba(233,217,180,.9) 0%, transparent 55%), radial-gradient(80% 60% at 0% 100%, #6f9ea2 0%, transparent 70%), linear-gradient(170deg, #b9d5d5 0%, #9cc2c4 50%, #6f9ea2 100%)', ink: '#2C3B3C', soft: 'rgba(44,59,60,.78)', accent: '#A9833F', glow: 'rgba(169,131,63,.45)', dark: false },
     thumb: "img/pk-thumb.jpg", wide: true,
-    blurb: "From Rococo inspiration to a fashion brand",
-    desc: "A Pecha Kucha presentation that starts from the Rococo style (gilded interiors, pastel gowns, fans, lace) and turns it into Nostalgia, a romantic fashion brand. Along the way: moodboards, a soft aqua, blush and sand palette with the meaning of each colour, logo sketches, the final logo in four colourways, typography in Melodies Constellation and Bely Display, posters, a clothing collection, and brand mockups from packaging and shopping bags to the shop sign. It plays like the real presentation ▶",
+    blurb: "From Rococo inspiration to a fashion brand, with its original Morph animation",
+    desc: "A Pecha Kucha presentation that starts from the Rococo style (gilded interiors, pastel gowns, fans, lace) and turns it into Nostalgia, a romantic fashion brand. Along the way: moodboards, a soft aqua, blush and sand palette with the meaning of each colour, logo sketches, the final logo in four colourways, typography in Melodies Constellation and Bely Display, posters, a clothing collection, and brand mockups from packaging and shopping bags to the shop sign. It plays with its original PowerPoint Morph animation, so pictures glide, resize and change colour between slides, just like the live talk ▶",
     tags: ["Pecha Kucha", "Research & moodboards", "Logo design", "Colour palette", "Typography", "Mockups"],
+    morph: "pk-deck.json",
     deck: ["pk-01.jpg", "pk-02.jpg", "pk-03.jpg", "pk-04.jpg", "pk-05.jpg", "pk-06.jpg", "pk-07.jpg", "pk-08.jpg", "pk-09.jpg", "pk-10.jpg", "pk-11.jpg", "pk-12.jpg", "pk-13.jpg", "pk-14.jpg", "pk-15.jpg", "pk-16.jpg", "pk-17.jpg", "pk-18.jpg", "pk-19.jpg", "pk-20.jpg", "pk-21.jpg", "pk-22.jpg", "pk-23.jpg", "pk-24.jpg"],
     images: [],
   },
@@ -174,7 +175,7 @@ function openProject(id) {
   lbGal.className = "lb-gallery" + (p.gallery ? " " + p.gallery : "") + (p.book || p.deck ? " has-book" : "");
   lbGal.innerHTML = p.images.map(([src, cls]) => `<img src="img/${src}" class="${cls || ""}" alt="${p.title}" loading="lazy" />`).join("");
   if (p.book) mountBook(lbGal, p.book, p.title);
-  if (p.deck) mountDeck(lbGal, p.deck, p.title);
+  if (p.deck) mountDeck(lbGal, p.deck, p.title, p.morph);
   const t = p.theme, inner = lb.querySelector(".lb-inner");
   inner.style.setProperty("--lb-bg", t.bg);
   inner.style.setProperty("--lb-ink", t.ink);
@@ -371,8 +372,9 @@ function mountBook(host, pages, title) {
 
 
 // ▶ Pecha Kucha player: timed slides with a progress bar, like the real talk
-function mountDeck(host, slides, title) {
-  const PER = 4200;
+function mountDeck(host, slides, title, morphUrl) {
+  let timing = null; // per-slide hold times from the PowerPoint (advTm), scaled for the web
+  const perOf = (i) => (timing ? (timing[i] <= 6000 ? 2900 : 5200) : 4200);
   host.innerHTML = `
     <div class="deck-player" tabindex="0" aria-label="${title} slideshow">
       <div class="dp-stage">
@@ -397,9 +399,12 @@ function mountDeck(host, slides, title) {
   slides.forEach((s) => { const im = new Image(); im.src = "img/" + s; });
   const show = (i, instant) => {
     cur = (i + slides.length) % slides.length;
-    b.src = "img/" + slides[cur];
-    const swap = () => { b.classList.add("show"); a.classList.remove("show"); [a, b] = [b, a]; };
-    instant || !b.decode ? swap() : b.decode().then(swap, swap);
+    if (morph) morph.go(cur, instant);
+    else {
+      b.src = "img/" + slides[cur];
+      const swap = () => { b.classList.add("show"); a.classList.remove("show"); [a, b] = [b, a]; };
+      instant || !b.decode ? swap() : b.decode().then(swap, swap);
+    }
     segs.forEach((sg, k) => { sg.className = k < cur ? "done" : k === cur ? "now" : ""; });
     thumbs.forEach((t, k) => t.classList.toggle("on", k === cur));
     const t = thumbs[cur], strip = t.parentElement;
@@ -411,7 +416,8 @@ function mountDeck(host, slides, title) {
     clearTimeout(timer);
     const seg = segs[cur].querySelector("i");
     seg.style.transition = "none"; seg.style.width = "0"; void seg.offsetWidth;
-    if (playing) { seg.style.transition = `width ${PER}ms linear`; seg.style.width = "100%"; timer = setTimeout(tick, PER); }
+    const per = perOf(cur);
+    if (playing) { seg.style.transition = `width ${per}ms linear`; seg.style.width = "100%"; timer = setTimeout(tick, per); }
   };
   const tick = () => {
     if (!document.body.contains(root) || !lb.classList.contains("open")) return clearTimeout(timer);
@@ -441,6 +447,26 @@ function mountDeck(host, slides, title) {
   let sx = 0; const st = root.querySelector(".dp-stage");
   st.addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
   st.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); });
+  let morph = null;
   a.src = "img/" + slides[0];
   setPlay(playing); show(0, true);
+  // upgrade to the real PowerPoint Morph animation once the slide data is loaded
+  if (morphUrl && window.MorphStage) {
+    fetch(morphUrl).then((r) => r.json()).then((data) => {
+      if (!document.body.contains(root)) return;
+      const box = document.createElement("div"); box.className = "dp-morph";
+      root.querySelector(".dp-stage").insertBefore(box, root.querySelector(".dp-hot"));
+      // preload this slide's pictures, then hand over from the static image
+      const first = data[cur].objs.filter((o) => o.src).map((o) => new Promise((r) => { const im = new Image(); im.onload = im.onerror = r; im.src = "img/pk/" + o.src; }));
+      Promise.race([Promise.all(first), new Promise((r) => setTimeout(r, 1500))]).then(() => {
+        morph = MorphStage(box, data, "img/pk/");
+        timing = data.map((d) => d.adv);
+        morph.go(cur, true);
+        root.classList.add("is-morph");
+        restart();
+        // warm the cache for the remaining slides
+        data.forEach((d) => d.objs.forEach((o) => { if (o.src) { const im = new Image(); im.src = "img/pk/" + o.src; } }));
+      });
+    }).catch(() => {});
+  }
 }
