@@ -141,9 +141,9 @@ const ORDER = [
   ["boho", "wide"], ["pg-brand", ""],
   ["bustan", "wide"], ["decor", ""],
   ["shine", "half"], ["indian", "half"],
-  ["nostalgia", "wide"], ["botmind", ""],
   ["kiwi", "wide"], ["dg", ""],
-  ["dkb", ""], ["mug", "wide"],
+  ["dkb", "half"], ["botmind", "half"],
+  ["nostalgia", "half"], ["mug", "half"],
 ];
 const ordered = ORDER.map(([id, size]) => ({ ...projects.find((x) => x.id === id), size })).filter((p) => p.id);
 projects.forEach((p) => { if (!ordered.some((o) => o.id === p.id)) ordered.push({ ...p, size: p.wide ? "wide" : "" }); });
